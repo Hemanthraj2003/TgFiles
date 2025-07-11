@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TgFilesBot</title>
+
+    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .container {
+        text-align: center;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      #countdown {
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      #download-btn {
+        display: none;
+        padding: 12px 24px;
+        font-size: 16px;
+        background-color: #0088cc;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      #download-btn:hover {
+        background-color: #006caa;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="countdown">Please wait 10 seconds...</div>
+      <button id="download-btn" onclick="openLink()">Download Now</button>
+    </div>
+
+    <script>
+      Telegram.WebApp.ready();
+
+      const startParam = Telegram.WebApp.initDataUnsafe
+        ? Telegram.WebApp.initDataUnsafe.start_param
+        : 3;
+
+      function openLink() {
+        Telegram.WebApp.openTelegramLink(
+          `https://t.me/FileToCashBot?start=${startParam}`
+        );
+        Telegram.WebApp.close();
+      }
+
+      // Countdown logic
+      let timeLeft = 10;
+      const countdownEl = document.getElementById("countdown");
+
+      const timer = setInterval(() => {
+        timeLeft--;
+        countdownEl.textContent = `Please wait ${timeLeft} second${
+          timeLeft !== 1 ? "s" : ""
+        }...`;
+
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          countdownEl.style.display = "none";
+          document.getElementById("download-btn").style.display =
+            "inline-block";
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>
